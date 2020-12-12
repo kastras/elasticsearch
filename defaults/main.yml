@@ -1,0 +1,5 @@
+NombreCluster: my-application
+NombreNodo : node-1
+IpServicioElasticsearch: 127.0.0.1
+PuertoServicioElasticsearch: 9200
+OtrosNodos:

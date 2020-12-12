@@ -1,0 +1,48 @@
+- name: Importamos la key del repositorio a través de url
+  rpm_key:
+    state: present
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+
+- name: Añadimos el repositorio de elasticsearch
+  yum_repository:
+    name: kibana-7.x
+    description: KIBANA repo
+    file: kibana
+    baseurl: https://artifacts.elastic.co/packages/7.x/yum
+    gpgcheck: yes
+    gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    enabled: yes
+
+- name: Instalamos elasticsearch
+  yum: name=elasticsearch state=latest
+
+- name: Damos un nombre al cluster
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'cluster.name:'
+    line: 'cluster.name: {{ NombreCluster }}'
+
+- name: Damos un nombre al nodo
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: '#node.name:'
+    line: 'node.name: {{ NombreNodo }}'
+
+- name: Indicamos la ip del servidor
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'network.host:'
+    line: 'network.host: {{ IpServicioElasticsearch }}'
+
+- name: Indicamos el puerto del elasticsearch
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'http.port:'
+    line: 'http.port: {{ PuertoServicioElasticsearch }}'
+
+- name: Ponemos los nodos del servidor de elasticsearch
+  lineinfile:
+    path: /etc/elasticsearch/elasticsearch.yml
+    regexp: 'cluster.initial_master_nodes:'
+    line: 'cluster.initial_master_nodes: [ {{ NombreNodo }} {{ OtrosNodos }}]'

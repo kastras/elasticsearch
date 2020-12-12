@@ -17,6 +17,9 @@
 - name: Instalamos elasticsearch
   yum: name=elasticsearch state=latest
 
+- name: Instalamos chkconfig
+  yum: name=chkconfig state=latest
+  
 - name: Damos un nombre al cluster
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml

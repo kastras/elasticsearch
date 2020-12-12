@@ -2,5 +2,5 @@
   include: elasticsearch-fedora.yml
   when: ansible_distribution == "Fedora" or ansible_distribution == "CentOS"
 
-- name: iniciamos y habilitamos el servicio httpd
+- name: iniciamos y habilitamos el servicio elasticsearch
   service: name=elasticsearch state=started enabled=true

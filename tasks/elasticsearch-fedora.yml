@@ -19,7 +19,7 @@
 
 - name: Instalamos chkconfig
   yum: name=chkconfig state=latest
-  
+
 - name: Damos un nombre al cluster
   lineinfile:
     path: /etc/elasticsearch/elasticsearch.yml
@@ -49,3 +49,14 @@
     path: /etc/elasticsearch/elasticsearch.yml
     regexp: 'cluster.initial_master_nodes:'
     line: 'cluster.initial_master_nodes: [ {{ NombreNodo }} {{ OtrosNodos }}]'
+
+- name: Creamos el servicio de elasticsearch para firewalcmd
+      template:
+        src: elasticsearch.j2
+        dest: /etc/firewalld/services/elasticsearch.xml
+
+- firewalld:
+    service: elasticsearch
+    permanent: true
+    immediate: true
+    state: enabled

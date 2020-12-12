@@ -51,9 +51,9 @@
     line: 'cluster.initial_master_nodes: [ {{ NombreNodo }} {{ OtrosNodos }}]'
 
 - name: Creamos el servicio de elasticsearch para firewalcmd
-      template:
-        src: elasticsearch.j2
-        dest: /etc/firewalld/services/elasticsearch.xml
+  template:
+    src: elasticsearch.j2
+    dest: /etc/firewalld/services/elasticsearch.xml
 
 - firewalld:
     service: elasticsearch
